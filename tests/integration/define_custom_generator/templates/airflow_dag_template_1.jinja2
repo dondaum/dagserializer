@@ -1,0 +1,30 @@
+"""Example DAG for testing templating"""
+
+from datetime import datetime, timedelta
+
+from airflow import DAG
+from airflow.operators.bash import BashOperator
+from airflow.operators.dummy import DummyOperator
+
+'''
+DBT METADATA
+{{ pyd_dbt_model.metadata }}
+'''
+
+with DAG(
+    dag_id='example_bash_operator',
+    schedule_interval='0 0 * * *',
+    start_date=datetime(2021, 1, 1),
+    catchup=False,
+    dagrun_timeout=timedelta(minutes=60),
+    tags=['example', 'example2'],
+    params={"example_key": "example_value"},
+) as dag:
+
+    {% for dbt_model in pyd_dbt_model.nodes %}
+      {{ dbt_model }}
+      task_{{ loop.index }} = BashOperator(
+        task_id='{{ dbt_model }}',
+        bash_command='echo loop.index',
+    )
+    {% endfor %}
