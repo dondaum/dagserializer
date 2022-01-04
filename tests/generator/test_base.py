@@ -1,7 +1,7 @@
 import os
 import unittest
-from unittest.mock import patch
 from pathlib import Path
+from unittest.mock import patch
 
 from parameterized import parameterized
 
@@ -51,7 +51,7 @@ class FakeGeneratorTest(unittest.TestCase):
             'model.ro_exemplar.stg_tpch_suppliers',
             'model.ro_exemplar.stg_tpch_parts',
             'model.ro_exemplar.stg_tpch_line_items',
-            'model.ro_exemplar.stg_tpch_part_suppliers'
+            'model.ro_exemplar.stg_tpch_part_suppliers',
         ]
 
     def test_init(self):
@@ -89,7 +89,6 @@ class FakeGeneratorTest(unittest.TestCase):
         models = gen.extract_models()
         self.assertEqual(list(models.keys()), self.get_expected_models())
 
-
     @parameterized.expand(dbt_manifest_version())
     def test_extract_sources(self, manifest):
         """
@@ -103,7 +102,7 @@ class FakeGeneratorTest(unittest.TestCase):
             'source.ro_exemplar.tpch.part',
             'source.ro_exemplar.tpch.partsupp',
             'source.ro_exemplar.tpch.region',
-            'source.ro_exemplar.tpch.supplier'
+            'source.ro_exemplar.tpch.supplier',
         ]
         target_path = os.path.join(DATA_PATH, manifest)
         gen = FakeGenerator(
