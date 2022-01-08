@@ -20,6 +20,7 @@ class JinjaRenderContext(RenderContext):
         Method that expects a template file path and returns a jinja
         environment
         """
+        str_path = str(template_file_path)
         loader = FileSystemLoader(str(self.template_dir))
-        environment: Environment = Environment(loader=loader)
-        return environment.get_template(template_file_path)
+        environment = Environment(loader=loader)
+        return environment.get_template(str_path)

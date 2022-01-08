@@ -1,9 +1,8 @@
 import json
-from importlib import import_module
 from pathlib import Path
-from typing import Union
 
 import dagserializer.logger as log
+from dagserializer.custom_types import GenericDbtModel
 from dagserializer.dbtschematas.v1 import Model as DbtModelV1
 from dagserializer.dbtschematas.v2 import Model as DbtModelV2
 from dagserializer.dbtschematas.v3 import Model as DbtModelV3
@@ -12,7 +11,7 @@ from dagserializer.dbtschematas.v4 import Model as DbtModelV4
 
 def factory_load_dbt(
     dbt_manifest: dict,
-) -> Union[DbtModelV1, DbtModelV2, DbtModelV3, DbtModelV4]:
+) -> GenericDbtModel:
     """
     Function that load pydantic models from a dbt
     manifest file
@@ -35,7 +34,7 @@ def factory_load_dbt(
 
 def load_manifest_from(
     path: str,
-) -> Union[DbtModelV1, DbtModelV2, DbtModelV3, DbtModelV4]:
+) -> GenericDbtModel:
     """
     Function that opens a manifest json and returns the pydantic
     model representations

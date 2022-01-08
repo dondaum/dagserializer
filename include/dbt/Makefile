@@ -1,7 +1,8 @@
 .DEFAULT_GOAL:=help
 
 # Define which dbt version shall be installed, setup and compiled to get the target artifacts
-DBT_VERSION = 0.19.2 0.20.0 0.21.0 
+DBT_VERSION = 0.19.2 0.20.0 0.21.0
+NEW_DBT_VERSION = 1.0.0
 
 
 .PHONY: initrapid-onboarding-exemplar
@@ -42,6 +43,22 @@ init:  initrapid-onboarding-exemplar setup-dbt-profile ## Init a new dbt project
 		cp -a basesetup/rapid-onboarding-exemplar/. rapid-onboarding-exemplar_$$dbtversion ; \
 		pip uninstall dbt==$$dbtversion -y ; \
 		pip install dbt==$$dbtversion ; \
+		cd rapid-onboarding-exemplar_$$dbtversion ; dbt deps ; dbt compile --no-version-check ; \
+		pip uninstall dbt==$$dbtversion -y ; \
+		pip uninstall dbt-bigquery -y ; \
+		pip uninstall dbt-core -y ; \
+		pip uninstall dbt-extractor  -y ; \
+		pip uninstall dbt-postgres -y ; \
+		pip uninstall dbt-redshift -y ; \
+		pip uninstall dbt-snowflake  -y ; \
+		cd .. ; \
+	done
+	for dbtversion in $(NEW_DBT_VERSION)  ; do \
+	    rm -rf rapid-onboarding-exemplar_$$dbtversion ; \
+		mkdir rapid-onboarding-exemplar_$$dbtversion ; \
+		cp -a basesetup/rapid-onboarding-exemplar/. rapid-onboarding-exemplar_$$dbtversion ; \
+		pip uninstall pip install dbt-postgres==$$dbtversion -y ; \
+		pip install dbt-postgres==$$dbtversion ; \
 		cd rapid-onboarding-exemplar_$$dbtversion ; dbt deps ; dbt compile --no-version-check ; \
 		pip uninstall dbt==$$dbtversion -y ; \
 		pip uninstall dbt-bigquery -y ; \

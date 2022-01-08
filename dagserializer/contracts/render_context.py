@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
+from typing import Any
 
 
 class RenderContext(ABC):
@@ -9,5 +10,5 @@ class RenderContext(ABC):
     """
 
     @abstractmethod
-    def get_template(self, template_file_path: Path) -> bool:
+    def get_template(self, template_file_path: Path) -> Any:
         pass
